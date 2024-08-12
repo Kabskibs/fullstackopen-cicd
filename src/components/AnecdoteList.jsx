@@ -34,7 +34,7 @@ const AnecdoteList = () => {
   const sortedAnecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
 
   return (
-    <>
+    <div data-testid='anecdote-list'>
       {sortedAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
@@ -46,7 +46,7 @@ const AnecdoteList = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

@@ -14,7 +14,7 @@ const Filter = () => {
   }
 
   return (
-    <div style={style}>
+    <div style={style} data-testid='filter'>
       filter <input onChange={handleChange} />
     </div>
   )

@@ -18,7 +18,7 @@ const AnecdoteForm = () => {
   }
 
   return (
-    <>
+    <div data-testid='anecdote-form'>
       <h2>create new</h2>
       <form onSubmit={addNew}>
         <div>
@@ -26,7 +26,7 @@ const AnecdoteForm = () => {
         </div>
         <button type='submit'>create</button>
       </form>
-    </>
+    </div>
   )
 }
 

@@ -12,7 +12,7 @@ const Notification = () => {
   }
 
   return (
-    <div>
+    <div data-testid='notification'>
       {notification
         ? <div style={style}>{notification}</div>
         : <div></div>
