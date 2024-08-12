@@ -1,0 +1,36 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Check style / Eslint
+        run: npm run lint
+      - name: Run vite build
+        run: npm run build
+      - name: Run unit tests / Vitest
+        run: npm run test
+      - name: Deploy to Render / Server
+        if: ${{ success() }}
+        env:
+          server_deploy_url: ${{ secrets.SERVER_RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$server_deploy_url"
+      - name: Deploy to Render / Client
+        if: ${{ success() }}
+        env:
+          client_deploy_url: ${{ secrets.CLIENT_RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$client_deploy_url"
+      

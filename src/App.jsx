@@ -20,7 +20,10 @@ const App = () => {
       <Notification />
       <Filter />
       <AnecdoteList />
-      <AnecdoteForm />
+      <AnecdoteForm /><br></br>
+      <i>As the database runs on free Render.com service, there might be significant delay in actions</i><br></br>
+      <i>You might want to refresh this page every couple of minutes. Once it spins up, it will work quite fine</i><br></br>
+      <i>Version: 1_test</i>
     </div>
   )
 }
