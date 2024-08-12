@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   deployment_pipeline:
@@ -22,15 +25,26 @@ jobs:
       - name: Run unit tests / Vitest
         run: npm run test
       - name: Deploy to Render / Server
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
         env:
           server_deploy_url: ${{ secrets.SERVER_RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$server_deploy_url"
       - name: Deploy to Render / Client
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
         env:
           client_deploy_url: ${{ secrets.CLIENT_RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$client_deploy_url"
+  tag_release:
+    needs: [deployment_pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+        uses: anothrNick/github-tag-action@777684df761b882a3f4f70db16ac70d8cc78d0ea
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
       
