@@ -46,6 +46,26 @@ jobs:
           client_deploy_url: ${{ secrets.CLIENT_RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$client_deploy_url"
+      - name: Notify on Discord if deployment successful
+        uses: tsickert/discord-webhook@v6.0.0
+        if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: Kabs CICD
+          embed-title: "New version of CICD deployed!"
+          embed-description: "Deployed to https://fullstackopen-cicd-client.onrender.com/ by ${{ github.actor }}"
+          embed-footer-text: "Severity: Info"
+          embed-color: 5763719
+      - name: Notify on Discord if build fails
+        uses: tsickert/discord-webhook@v6.0.0
+        if: ${{ failure() }}
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          username: Kabs CICD
+          embed-title: "CICD build failed"
+          embed-description: "Commit https://github.com/${{ github.repository }}/commit/${{ github.sha }} by ${{ github.actor }} broke the build"
+          embed-footer-text: "Severity: Error"
+          embed-color: 15548997
   tag_release:
     needs: [deployment_pipeline]
     runs-on: ubuntu-20.04
