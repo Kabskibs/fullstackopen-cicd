@@ -3,9 +3,6 @@ name: Periodic health check
 on:
   schedule:
     - cron: '0 3 */2 * *'
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
 
 jobs:
   check_render_server_health:
