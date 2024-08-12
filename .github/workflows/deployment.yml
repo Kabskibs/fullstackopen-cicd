@@ -25,13 +25,13 @@ jobs:
       - name: Run unit tests / Vitest
         run: npm run test
       - name: Deploy to Render / Server
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' }}
         env:
           server_deploy_url: ${{ secrets.SERVER_RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$server_deploy_url"
       - name: Deploy to Render / Client
-        if: ${{ success() }}
+        if: ${{ success() && github.event_name == 'push' }}
         env:
           client_deploy_url: ${{ secrets.CLIENT_RENDER_DEPLOY_HOOK_URL }}
         run: |
