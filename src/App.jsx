@@ -21,9 +21,10 @@ const App = () => {
       <Filter />
       <AnecdoteList />
       <AnecdoteForm /><br></br>
+      <i>If there is no data or actions feel broken:</i><br></br>
       <i>As the database runs on free Render.com service, there might be significant delay in actions</i><br></br>
-      <i>You might want to refresh this page every couple of minutes. Once it spins up, it will work quite fine</i><br></br>
-      <i>Version: 1_test</i>
+      <i>You might need to refresh this page every couple of minutes. Once it spins up, it will work quite fine</i><br></br>
+      <i>Version: 2_test</i>
     </div>
   )
 }
