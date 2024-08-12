@@ -27,6 +27,6 @@ const App = () => {
       <i>Version: 2_dev</i>
     </div>
   )
-}
+};
 
 export default App
